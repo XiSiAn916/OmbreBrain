@@ -160,12 +160,14 @@ fun HomeScreen(
         stats = memoryEngine.getStats()
     }
 
-    Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
+    Column(
+        modifier = modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
         Text(
             text = "🧠 Ombre Brain",
             style = MaterialTheme.typography.headlineMedium
         )
-        Spacer(modifier = Modifier.weight(1f))
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(
@@ -186,6 +188,5 @@ fun HomeScreen(
                 )
             }
         }
-        Spacer(modifier = Modifier.weight(2f))
     }
 }
