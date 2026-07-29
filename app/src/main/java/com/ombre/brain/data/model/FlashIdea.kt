@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.ombre.brain.data.database.Converters
+import kotlinx.serialization.Serializable
 
 /**
  * 闪现想法 —— AI "触景生情"时自动生成的灵感片段
@@ -13,6 +14,7 @@ import com.ombre.brain.data.database.Converters
  */
 @Entity(tableName = "flashes")
 @TypeConverters(Converters::class)
+@Serializable
 data class FlashIdea(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
