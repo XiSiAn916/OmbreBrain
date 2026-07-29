@@ -26,7 +26,7 @@ fun SettingsScreen(
     onSyncToOperit: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    var stats by remember { mutableStateOf(memoryEngine.BrainStats(0, 0, 0, 0, 0)) }
+    var stats by remember { mutableStateOf(MemoryEngine.BrainStats(0, 0, 0, 0, 0)) }
     var showPasswordDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
