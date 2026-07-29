@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.ombre.brain.data.database.Converters
+import kotlinx.serialization.Serializable
 
 /**
  * 固化习惯 —— 永不遗忘的核心记忆
@@ -18,6 +19,7 @@ import com.ombre.brain.data.database.Converters
  */
 @Entity(tableName = "habits")
 @TypeConverters(Converters::class)
+@Serializable
 data class Habit(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
