@@ -57,8 +57,8 @@ class ImportanceScorer {
      */
     private fun calculateFrequencyScore(count: Int): Double {
         if (count <= 0) return 0.0
-        return (kotlin.math.log(count.toDouble() + 1.0) /
-                kotlin.math.log(FREQUENCY_SATURATION + 1.0))
+        return (kotlin.math.ln(count.toDouble() + 1.0) /
+                kotlin.math.ln(FREQUENCY_SATURATION + 1.0))
             .coerceIn(0.0, 1.0)
     }
 
