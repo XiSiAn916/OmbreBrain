@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.ombre.brain.data.database.Converters
+import kotlinx.serialization.Serializable
 
 /**
  * 记忆主实体 —— Ombre Brain 的核心数据
@@ -17,6 +18,7 @@ import com.ombre.brain.data.database.Converters
  */
 @Entity(tableName = "memories")
 @TypeConverters(Converters::class)
+@Serializable
 data class Memory(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
