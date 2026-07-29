@@ -124,8 +124,8 @@ fun OmbreBrainAppContent(
                 onSyncToOperit = {
                     scope.launch {
                         try {
-                            val bridge = OperitSyncManager.FileBridgeApi(this@MainActivity)
-                            val syncMgr = OperitSyncManager(app.database.memoryDao())
+                            val bridge = OperitSyncManager.FileBridgeApi(OmbreBrainApp.instance)
+                            val syncMgr = OperitSyncManager(OmbreBrainApp.instance.database.memoryDao())
                             syncMgr.setApi(bridge)
                             val count = syncMgr.syncToOperit()
                             val pending = bridge.getPendingSyncCount()
