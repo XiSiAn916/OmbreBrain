@@ -1,0 +1,96 @@
+package com.ombre.brain.sync
+
+import com.ombre.brain.data.database.dao.MemoryDao
+import com.ombre.brain.data.model.Memory
+
+/**
+ * Operit 记忆双向同步管理器
+ *
+ * 将 Ombre Brain 中重要度 > 0.6 的记忆同步到 Operit 记忆系统，
+ * 同时在换设备时从 Operit 记忆拉取恢复。
+ *
+ * 注意：实际的 Operit Memory API 调用需要适配 Operit 平台的接口。
+ * 此处提供适配器接口和默认实现框架。
+ */
+class OperitSyncManager(private val memoryDao: MemoryDao) {
+
+    /**
+     * Operit 记忆 API 适配器（需根据实际平台接口对接）
+     */
+    interface OperitMemoryApi {
+        /** 向 Operit 记忆中写入一条 */
+        suspend fun saveToOperit(title: String, content: String, tags: List<String>): Boolean
+
+        /** 从 Operit 记忆中搜索 */
+        suspend fun searchFromOperit(query: String): List<OperitMemoryItem>
+    }
+
+    data class OperitMemoryItem(
+        val title: String,
+        val content: String,
+        val tags: List<String> = emptyList(),
+        val timestamp: Long = System.currentTimeMillis()
+    )
+
+    private var api: OperitMemoryApi? = null
+
+    /**
+     * 注册 Operit API 适配器
+     */
+    fun setApi(api: OperitMemoryApi) {
+        this.api = api
+    }
+
+    /**
+     * 同步待同步的记忆到 Operit
+     * @param minImportance 最低重要度阈值
+     */
+    suspend fun syncToOperit(minImportance: Double = 0.6): Int {
+        val api = this.api ?: return 0
+        val unsyncedMemories = memoryDao.getUnsyncedMemories(minImportance)
+        var syncedCount = 0
+
+        for (memory in unsyncedMemories) {
+            val success = api.saveToOperit(
+                title = memory.title,
+                content = memory.content,
+                tags = memory.tags
+            )
+            if (success) {
+                memoryDao.markSynced(memory.id)
+                syncedCount++
+            }
+        }
+
+        return syncedCount
+    }
+
+    /**
+     * 从 Operit 记忆拉取恢复（换设备时使用）
+     */
+    suspend fun pullFromOperit(): Int {
+        val api = this.api ?: return 0
+
+        // 搜索所有可能的记忆（使用通配符或空查询）
+        val items = api.searchFromOperit("*")
+        var importedCount = 0
+
+        for (item in items) {
+            // 检查本地是否已存在
+            val existing = memoryDao.searchMemories(item.title)
+            if (existing.isEmpty()) {
+                val memory = Memory(
+                    title = item.title,
+                    content = item.content,
+                    tags = item.tags,
+                    createdAt = item.timestamp,
+                    syncedToOperit = true
+                )
+                memoryDao.insert(memory)
+                importedCount++
+            }
+        }
+
+        return importedCount
+    }
+}

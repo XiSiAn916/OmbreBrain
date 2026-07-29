@@ -1,0 +1,31 @@
+package com.ombre.brain.data.database
+
+import androidx.room.TypeConverter
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.serializer
+
+/**
+ * Room 类型转换器 —— 处理 List<Long>, List<String> 等复杂类型的序列化
+ */
+class Converters {
+
+    @TypeConverter
+    fun fromLongList(value: List<Long>): String =
+        value.joinToString(",")
+
+    @TypeConverter
+    fun toLongList(value: String): List<Long> =
+        if (value.isBlank()) emptyList()
+        else value.split(",").mapNotNull { it.trim().toLongOrNull() }
+
+    @TypeConverter
+    fun fromStringList(value: List<String>): String =
+        value.joinToString("|__|")  // 分隔符，避免与内容冲突
+
+    @TypeConverter
+    fun toStringList(value: String): List<String> =
+        if (value.isBlank()) emptyList()
+        else value.split("|__|").map { it.trim() }
+}

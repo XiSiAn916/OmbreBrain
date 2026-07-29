@@ -1,0 +1,37 @@
+{
+  "app_name": "OmbreBrain仿人记忆系统App",
+  "package_name": "com.operit.ombrebrainapp",
+  "project_dir": "/data/user/0/com.ai.assistance.operit/files/workspace/5cf4a1ae-d79b-4d67-b55c-b4af82299199/OmbreBrain仿人记忆系统App",
+  "requirement": "Ombre Brain 仿人记忆系统 Android 应用。包名 com.ombre.brain，已写好所有代码，需要编译生成 debug APK。项目路径在 /data/user/0/com.ai.assistance.operit/files/workspace/5cf4a1ae-d79b-4d67-b55c-b4af82299199",
+  "created_at": "2026-07-28T23:02:52.697Z",
+  "architecture": "MVVM",
+  "min_sdk": 24,
+  "target_sdk": 34,
+  "language": "Kotlin",
+  "build_system": "Gradle",
+  "template": "internal",
+  "ui_framework": "Jetpack Compose",
+  "dependencies": [
+    "androidx.core:core-ktx:1.12.0",
+    "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0",
+    "androidx.activity:activity-compose:1.8.2",
+    "androidx.compose.ui:ui:1.6.0",
+    "androidx.compose.material3:material3:1.2.0"
+  ],
+  "ui_layout": {
+    "main_screen": "Scaffold with TopAppBar",
+    "navigation": "Single Activity",
+    "theme": "Material3 Dynamic Color"
+  },
+  "file_plan": [
+    "settings.gradle.kts",
+    "build.gradle.kts",
+    "app/build.gradle.kts",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/com/operit/ombrebrainapp/MainActivity.kt",
+    "app/src/main/java/com/operit/ombrebrainapp/ui/theme/Theme.kt",
+    "app/src/main/java/com/operit/ombrebrainapp/ui/theme/Color.kt",
+    "app/src/main/res/values/strings.xml"
+  ],
+  "status": "planned"
+}
